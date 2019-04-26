@@ -16,7 +16,7 @@
     <modules>
         <module>spring_I_Oc</module>
         <module>spring_Mvc</module>
-		
+        <module>spring_hibernate_cars</module>
     </modules>
 	 
 	 <build>

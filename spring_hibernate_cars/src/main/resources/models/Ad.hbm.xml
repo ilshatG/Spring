@@ -1,0 +1,26 @@
+<hibernate-mapping>
+    <class name="ru.job4j.models.Ad" table="ad">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="brandModel" column="brand_model" lazy="false" fetch="select"/>
+
+        <many-to-one name="wheel" column="wheel" not-null="true" />
+        <many-to-one name="drive" column="drive" not-null="true" />
+        <many-to-one name="colour" column="colour" not-null="true" />
+        <many-to-one name="carBody" column="car_body" not-null="true" />
+        <many-to-one name="engineType" column="engine_type" not-null="true" />
+        <many-to-one name="transmission" column="transmission" not-null="true" />
+        <many-to-one name="user" column="user_id" not-null="true" />
+        <property name="owners" column="owners" />
+        <property name="engineVolume" column="engine_volume" />
+        <property name="carMeleage" column="car_meleage" />
+        <property name="year" column="year" />
+        <property name="powerOfEngine" column="power_of_engine" />
+        <property name="description" column="description" />
+        <property name="published" column="published" />
+        <property name="price" column="price" />
+        <property name="sale" column="sale" />
+
+    </class>
+</hibernate-mapping>

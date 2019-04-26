@@ -1,0 +1,11 @@
+<hibernate-mapping>
+    <class name="ru.job4j.models.BrandModel" table="brand_models">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="brandId" column="brand_id" not-null="true" lazy="false"/>
+        <property name="modelId" column="model_id" not-null="true" lazy="false"/>
+
+    </class>
+</hibernate-mapping>
