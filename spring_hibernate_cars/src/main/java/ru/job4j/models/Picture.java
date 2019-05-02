@@ -1,5 +1,9 @@
 package ru.job4j.models;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
 public class Picture {
@@ -15,6 +19,11 @@ public class Picture {
 
     public Picture(long id) {
         this.id = id;
+    }
+
+    public Picture(long id, byte[] image) {
+        this.id = id;
+        this.image = image;
     }
 
     public long getId() {

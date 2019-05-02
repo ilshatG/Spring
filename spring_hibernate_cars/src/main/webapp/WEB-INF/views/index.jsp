@@ -18,7 +18,7 @@
                     var tbl_row = "";
 
                     tbl_row += "<td>" + this["id"] + "</td>";
-                    tbl_row += "<td> <img src='picture-" + this["image"] + ".jpg' width='100'/></td>";
+                    tbl_row += "<td> <a href='add"+this["id"]+".do'>" +" <img src='picture-" + this["image"] + ".jpg' width='100'/></a></td>";
                     tbl_row += "<td>" + this["brand"] + "</td>";
                     tbl_row += "<td>" + this["model"] + "</td>";
                     tbl_row += "<td>" + this["year"] + "</td>";
@@ -81,6 +81,8 @@
         </tbody>
     </table>
     <script>updateTable();</script>
+
+    <a href="add0.do"><input type="button" value="Add ad"></a>
 </div>
 
 

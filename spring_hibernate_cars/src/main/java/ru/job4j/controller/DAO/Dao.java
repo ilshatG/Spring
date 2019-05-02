@@ -59,8 +59,8 @@ public class Dao {
     private void addData() throws Exception{
         store.add(new Brand("Toyota"));
 
-        store.add(new CarModel("Corolla"));
         store.add(new CarModel("Camry"));
+        store.add(new CarModel("Corolla"));
         store.add(new CarModel("RAV-4"));
 
         store.add(new Brand("Nissan"));
@@ -128,24 +128,25 @@ public class Dao {
 
         File pictureFile = ResourceUtils.getFile("classpath:toyota-camry.jpg");
         byte[] image = Files.readAllBytes(pictureFile.toPath());
-        Picture picture = new Picture(image);
+        Picture picture = new Picture(1, image);
+
         store.add(picture);
 
         pictureFile = ResourceUtils.getFile("classpath:toyota-corolla.jpg");
         image = Files.readAllBytes(pictureFile.toPath());
-        store.add(new Picture(image));
+        store.add(new Picture(2, image));
 
         pictureFile = ResourceUtils.getFile("classpath:nissan-patrol.jpg");
         image = Files.readAllBytes(pictureFile.toPath());
-        store.add(new Picture(image));
+        store.add(new Picture(3, image));
 
         Ad ad = new Ad();
         ad.setPicture(new Picture(1));
         ad.setBrandModel(new BrandModel(1));
         ad.setWheel(new Wheel(1));
-        ad.setDrive(new Drive(1));
-        ad.setColour(new Colour(1));
-        ad.setCarBody(new CarBody(1));
+        ad.setDrive(new Drive(2));
+        ad.setColour(new Colour(2));
+        ad.setCarBody(new CarBody(2));
         ad.setEngineType(new EngineType(1));
         ad.setTransmission(new Transmission(1));
         ad.setUser(plainUser);
@@ -166,8 +167,8 @@ public class Dao {
         ad2.setBrandModel(new BrandModel(2));
         ad2.setWheel(new Wheel(1));
         ad2.setDrive(new Drive(1));
-        ad2.setColour(new Colour(2));
-        ad2.setCarBody(new CarBody(1));
+        ad2.setColour(new Colour(1));
+        ad2.setCarBody(new CarBody(2));
         ad2.setEngineType(new EngineType(1));
         ad2.setTransmission(new Transmission(1));
         ad2.setUser(plainUser);
@@ -187,8 +188,8 @@ public class Dao {
         ad3.setBrandModel(new BrandModel(4));
         ad3.setWheel(new Wheel(1));
         ad3.setDrive(new Drive(1));
-        ad3.setColour(new Colour(2));
-        ad3.setCarBody(new CarBody(1));
+        ad3.setColour(new Colour(1));
+        ad3.setCarBody(new CarBody(3));
         ad3.setEngineType(new EngineType(1));
         ad3.setTransmission(new Transmission(1));
         ad3.setUser(plainUser);
@@ -197,11 +198,32 @@ public class Dao {
         ad3.setCarMeleage(80_000);
         ad3.setYear(2015);
         ad3.setPowerOfEngine(230);
-        ad3.setDescription("Excellent car.");
+        ad3.setDescription("The car.");
         ad3.setPublished(new Timestamp(System.currentTimeMillis()));
         ad3.setPrice(100_000.0);
         ad3.setSale(false);
 
         store.add(ad3);
+
+        Ad ad4 = new Ad();
+        ad4.setBrandModel(new BrandModel(4));
+        ad4.setWheel(new Wheel(1));
+        ad4.setDrive(new Drive(1));
+        ad4.setColour(new Colour(2));
+        ad4.setCarBody(new CarBody(3));
+        ad4.setEngineType(new EngineType(1));
+        ad4.setTransmission(new Transmission(1));
+        ad4.setUser(plainUser);
+        ad4.setOwners(1);
+        ad4.setEngineVolume(2800);
+        ad4.setCarMeleage(88_000);
+        ad4.setYear(2011);
+        ad4.setPowerOfEngine(230);
+        ad4.setDescription("The old car.");
+        ad4.setPublished(new Timestamp(System.currentTimeMillis()));
+        ad4.setPrice(102_000.0);
+        ad4.setSale(false);
+
+        store.add(ad4);
     }
 }

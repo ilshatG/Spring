@@ -14,30 +14,68 @@
 
             function fillOptions(dropBox, table, activePosition) {
                 $(document.getElementById(dropBox)).empty();
+                $(document.getElementById(dropBox))
+                    .append($('<option>', { value : "0" })
+                    .text("not selected"));
                 $.getJSON("jsonData-"+table+".do" , function(selectValues) {
                     $.each(selectValues, function(key, value) {
                         $(document.getElementById(dropBox))//$('#brand')
-                            .append($('<option>', { value : this["id"].toString() })
+                            .append($('<option>', { value : this["id"]/*.toString()*/ })
                                 .text(this["name"].toString()));
                     });
                     $(document.getElementById(dropBox)).val(activePosition.toString());
                 });
                 //alert("table - " + table);
             }
+            function validate() {
+                var elements = document.getElementById("my-form").elements;
+                var errorText = "";
+                var result = true;
+                for (var i = 0, element; element = elements[i++];) {
+                    if (element.value === "" || element.value === "0") {
+                        errorText = errorText + "\t" + element.title + "\n\r"
+                    }
+                }
+                if (errorText!="") {
+                    alert("Заполните:\n\r" + errorText);
+                    result = false;
+                }
+                return result;
+            }
+
+            $(document).ready(function () {
+                $('#uploadFile').on('submit', function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url : $(this).attr('action') || window.location.pathname,
+                        type: "post",
+                        data: new FormData($("#uploadFile")[0]),
+                        processData: false,
+                        contentType: false,
+                        async: false,
+                        success: function (data) {
+                            //$("#form_output").html(data);
+                            d = new Date();
+                            $("#carPicture").attr("src", "picture-0.do?"+d.getTime());
+                        },
+                        error: function (jXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                });
+                $("#carPicture").update();
+            });
 
     </script>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container-fluid" id="main">
 <h1>Add/edit</h1>
-    <form action="add.do" id="my-form" method="post">
-        <c:if test="${ad.id != 0}">
-            <p>ad.carBody.id ${ad.carBody.id}</p>
-        </c:if>
+    <form action="add.do" id="my-form" method="post" onsubmit="return validate()">
 
         <div class="form-group">
             <label for="brand">Brand:</label>
-            <select id="brand" name="brand" onchange="fillOptions('model', 'modelsOfBrand-'+this.value, 0)">
+            <select id="brand" name="brand" title="car brand" onchange="fillOptions('model', 'modelsOfBrand-'+this.value, 0)">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -45,7 +83,7 @@
 
         <div class="form-group">
             <label for="model">Model:</label>
-            <select id="model" name="model">
+            <select id="model" title="model of car" name="model">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -54,7 +92,7 @@
 
         <div class="form-group">
             <label for="wheel">Wheel:</label>
-            <select id="wheel" name="wheel.id">
+            <select id="wheel" title="wheel place" name="wheel.id">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -62,7 +100,7 @@
 
         <div class="form-group">
             <label for="drive">Drive:</label>
-            <select id="drive" name="drive.id">
+            <select id="drive" title="drive type" name="drive.id">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -70,7 +108,7 @@
 
         <div class="form-group">
             <label for="colour">Colour:</label>
-            <select id="colour" name="colour">
+            <select id="colour" title="colour of car" name="colour.id">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -78,7 +116,7 @@
 
         <div class="form-group">
             <label for="carBody">Car body:</label>
-            <select id="carBody" name="carBody">
+            <select id="carBody" title="car body" name="carBody.id">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -86,7 +124,7 @@
 
         <div class="form-group">
             <label for="engineType">Engine type:</label>
-            <select id="engineType" name="engineType">
+            <select id="engineType" title="engine type" name="engineType.id">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -94,7 +132,7 @@
 
         <div class="form-group">
             <label for="transmission">Transmission type:</label>
-            <select id="transmission" name="transmission">
+            <select id="transmission" title="transmission type" name="transmission.id">
                 <option value="0">not selected</option>
             </select>
         </div>
@@ -102,40 +140,43 @@
 
         <div class="form-inline">
             <label for="owners">Number of owners:</label>
-            <input type="text" class="form-control" id="owners" title="owners" value="${ad.owners}">
+            <input type="text" class="form-control" id="owners" name="owners" title="owners" value="${ad.owners}">
         </div>
         <div class="form-inline">
             <label for="engineVolume">Engine volume:</label>
-            <input type="text" class="form-control" id="engineVolume" title="engineVolume" value="${ad.engineVolume}">
+            <input type="text" class="form-control" id="engineVolume" title="engineVolume" name="engineVolume" value="${ad.engineVolume}">
         </div>
 
         <div class="form-inline">
             <label for="powerOfEngine">Power (horse):</label>
-            <input type="text" class="form-control" id="powerOfEngine" title="year" value="${ad.powerOfEngine}">
+            <input type="text" class="form-control" id="powerOfEngine" name="powerOfEngine" title="year" value="${ad.powerOfEngine}">
         </div>
 
         <div class="form-inline">
             <label for="carMeleage">Meleage:</label>
-            <input type="text" class="form-control" id="carMeleage" title="carMeleage" value="${ad.carMeleage}">
+            <input type="text" class="form-control" id="carMeleage" title="carMeleage" name="carMeleage" value="${ad.carMeleage}">
         </div>
 
         <div class="form-inline">
             <label for="year">Year:</label>
-            <input type="text" name="year" class="form-control" id="year" title="year" value="${ad.year}">
+            <input type="text" name="year" class="form-control" id="year" name="year" title="year" value="${ad.year}">
         </div>
 
         <div class="form-inline">
             <label for="price">Price:</label>
-            <input type="text" name="price" class="form-control" id="price" title="price" value="${ad.price}">
+            <input type="text" name="price" class="form-control" id="price" name="price" title="price" value="${ad.price}">
         </div>
 
         <div class="form-group">
             <label for="description">Description:</label>
-            <input type="text" name="description" class="form-control" id="description" title="description" value="${ad.description}">
+            <input type="text" name="description" class="form-control" id="description" name="description" title="description" value="${ad.description}">
         </div>
-        <div class="form-group">
-            <img src="picture-${ad.id}.do" width="800"/>
+        <div class="form-group" >
+            <img id="carPicture" src="picture-0.do" width="800"/>
         </div>
+
+
+
         <div class="form-inline">
             <label>Published: ${ad.published}</label>
         </div>
@@ -143,8 +184,21 @@
         <div class="form-inline">
             <label>Saled: ${ad.sale}</label>
         </div>
-        <input type="submit">
+        <input type="submit" value="Add ad"/>
+        <a href="index.do"> <input type="button" value="Back"/> </a>
     </form>
+    <br>
+    <form id="uploadFile" method="POST" action="uploadFile.do"  enctype="multipart/form-data" >
+        Picture to upload: <input type="file" name="file" id="file" accept="image/jpeg"><br />
+
+        <input type="submit" value="Upload"> Press here to upload the file!
+    </form>
+</div>
+
+
+<div id="form_output">
+
+
 </div>
 </body>
 </html>

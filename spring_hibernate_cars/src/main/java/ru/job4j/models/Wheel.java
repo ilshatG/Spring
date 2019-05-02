@@ -5,6 +5,17 @@ import java.util.Objects;
 public class Wheel {
     private long id;
     private String name;
+    private String sid;
+
+    public void setSid(String sid) {
+        this.sid = sid;
+        this.id = Long.parseLong(sid);
+    }
+
+    public String getSid() {
+        sid = Long.toString(id);
+        return sid;
+    }
 
     public Wheel() {
     }
