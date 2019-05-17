@@ -22,9 +22,9 @@
             <tr>
                 <td>Имя</td>
             </tr>
-            <c:forEach items="${users}" var="user" varStatus="status">
+            <c:forEach items="${users}" var="adUser" varStatus="status">
                 <tr valign="top">
-                    <td>${user.name}</td>
+                    <td>${adUser.name}</td>
                 </tr>
             </c:forEach>
         </table>
