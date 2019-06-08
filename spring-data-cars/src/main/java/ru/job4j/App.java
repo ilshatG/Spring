@@ -65,6 +65,11 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
 
     @Override
     public void run(String... args) throws Exception {
+
+
+    }
+
+    void init() {
         Brand toyotaBrand = new Brand("Toyota");
         brandRepository.save(toyotaBrand);
         Brand nissanBrand = new Brand("Nissan");
@@ -235,7 +240,6 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
         ad4.setPrice(1_600_000);
 
         adRepository.save(ad4);
-
     }
 }
 
