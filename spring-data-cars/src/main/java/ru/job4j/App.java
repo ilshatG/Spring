@@ -7,12 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
 import ru.job4j.models.*;
@@ -26,7 +28,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootApplication
+@SpringBootApplication()
 @PropertySource("classpath:application.properties")
 @ServletComponentScan
 @EntityScan(basePackages={"ru.job4j.models"})
@@ -58,6 +60,9 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
     @Autowired
     private AdRepository adRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(App.class, args);
     }
@@ -65,11 +70,10 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
 
     @Override
     public void run(String... args) throws Exception {
-
-
+        init();
     }
 
-    void init() {
+    private void init() {
         Brand toyotaBrand = new Brand("Toyota");
         brandRepository.save(toyotaBrand);
         Brand nissanBrand = new Brand("Nissan");
@@ -143,9 +147,18 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
         Role admin = new Role("admin");
         roleRepository.save(admin);
 
-        AdUser adUser = new AdUser("adUser");
+        Role plainUser = new Role("user");
+        roleRepository.save(plainUser);
+
+        AdUser adUser = new AdUser("user");
+        adUser.setPassword(passwordEncoder.encode("password"));
         adUser.setRole(admin);
         userRepository.save(adUser);
+
+        AdUser user2 = new AdUser("user2");
+        user2.setPassword(passwordEncoder.encode("password"));
+        user2.setRole(plainUser);
+        userRepository.save(user2);
 
         Ad ad1 = new Ad();
         ad1.setBody(sedan);
@@ -155,7 +168,7 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
         ad1.setEngine(gasoline);
         ad1.setTransmission(automatic);
         ad1.setWheel(left);
-        ad1.setAdUser(adUser);
+        ad1.setAdUser(user2);
         ad1.setOwners(1);
         ad1.setEngineVolume(2500);
         ad1.setCarMeleage(100_000);

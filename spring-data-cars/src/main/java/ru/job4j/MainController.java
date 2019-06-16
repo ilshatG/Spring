@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +56,16 @@ public class MainController {
 
     private Picture addedPicture = new Picture();
 
-    @GetMapping(value = "/index")
-    public String showItems(ModelMap model) {
+    @GetMapping(value = "/")
+    public String showItems(ModelMap model, Principal principal) {
+        String name = "";
+        if (principal != null) {
+            name = principal.getName();
+            if (name == null) {
+                name = "";
+            }
+        }
+        model.addAttribute("userName", name);
         return "index";
     }
 
@@ -120,7 +129,11 @@ public class MainController {
     }
 
     @GetMapping(value = "/add{id}")
-    public String addAd(ModelMap modelMap, @PathVariable Long id) {
+    public String addAd(ModelMap modelMap, @PathVariable Long id, Principal principal) {
+
+        if (id != 0 && !adRepository.getAdUserNameById(id).equals(principal.getName())) {
+            return "redirect:./";
+        }
         Ad ad = adRepository.findById(id).orElse(new Ad());
 
         if (addedPicture.getId() != id) {
@@ -133,7 +146,7 @@ public class MainController {
         modelMap.addAttribute(ad);
         modelMap.addAttribute("idAd", new IdAd(id));
         if (ad.getAdUser() == null) {
-            ad.setAdUser(new AdUser(1));
+            ad.setAdUser(userRepository.findByName(principal.getName()));
         }
         modelMap.addAttribute("adUser", ad.getAdUser());
         return "editCar";
@@ -153,7 +166,7 @@ public class MainController {
         addedPicture.setId(0);
         adRepository.save(ad);
 
-        return "redirect:index";
+        return "redirect:./";
     }
 
     @PostMapping("/uploadFile")

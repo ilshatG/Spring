@@ -10,12 +10,29 @@ public class AdUser {
     private long id;
     private String name;
     private String phone;
+    private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @OneToMany(mappedBy = "adUser")
     List<Ad> ad;
+
+    public AdUser(AdUser adUser) {
+        this.id = adUser.id;
+        this.name = adUser.name;
+        this.phone = adUser.phone;
+        this.role = adUser.role;
+        this.password = adUser.password;
+    }
 
     public AdUser() {
     }

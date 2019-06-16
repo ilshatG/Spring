@@ -92,6 +92,11 @@ public class Ad {
         return engine.getName();
     }
 
+    @JsonGetter("userName")
+    public  String getUserName() {
+        return adUser.getName();
+    }
+
     public long getBrandId() {
         return brandModel.getBrand().getId();
     }

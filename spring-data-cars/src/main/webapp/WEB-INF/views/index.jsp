@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
     <title>Simple Spring MVC + Hibernate</title>
@@ -7,7 +9,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <script>
 
         function updateTable() {
@@ -30,6 +31,7 @@
                     tbl_row += "<td>" + this["car_body"] + "</td>";
                     tbl_row += "<td>" + this["drive"] + "</td>";
                     tbl_row += "<td>" + this["fuel"] + "</td>";
+                    tbl_row += "<td>" + this["userName"] + "</td>";
 
 
                     tbl_body += "<tr valign='baseline'>"+tbl_row+"</tr>";
@@ -50,6 +52,15 @@
 
 <body>
 <div class="container-fluid">
+
+
+    <c:set var = "log" value="login"></c:set>
+    <c:if test="${not empty userName}">
+        <c:set var="log" value="logout"></c:set>
+        <p>Current user is <c:out value="${userName}" /></p>
+    </c:if>
+    <a href="<c:out value="${log}"/>" ><input type="button" value="<c:out value="${log}"/>"></a>
+
     <h1>Cars ads</h1>
     <p>Spring MVC + Data</p>
 
@@ -71,6 +82,7 @@
             <th>Body</th>
             <th>Drive</th>
             <th>Fuel</th>
+            <th>User</th>
         </tr>
         </thead>
 

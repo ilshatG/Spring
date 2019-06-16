@@ -185,7 +185,7 @@
             <label>Saled: ${ad.sale}</label>
         </div>
         <input type="submit" value="Add ad"/>
-        <a href="index"> <input type="button" value="Back"/> </a>
+        <a href="./"> <input type="button" value="Back"/> </a>
     </form>
     <br>
     <form id="uploadFile" method="POST" action="uploadFile"  enctype="multipart/form-data" >
